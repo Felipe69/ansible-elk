@@ -1,0 +1,6 @@
+---
+  - name: Configure WPAD
+    hosts: all
+    copy:
+      src: /var/lib/awx/projects/wpad/wpad.dat
+      dest: /var/www/html/
