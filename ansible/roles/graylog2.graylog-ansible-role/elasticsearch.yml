@@ -1,0 +1,5 @@
+- name: Deploy Elasticsearch
+  hosts: graylog.prf.rs
+  roles:
+    - role: elastic.elasticsearch 
+      es_instance_name: "node1"

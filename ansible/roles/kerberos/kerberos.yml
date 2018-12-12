@@ -1,0 +1,75 @@
+---
+  - name: Configure domain integrations
+    hosts: all
+    tasks:
+      - name: Install packages
+        yum:
+          name: "{{ packages }}"
+        vars:
+          packages:
+            - krb5-workstation
+            - samba-common-tools
+            - sssd-ad
+            - samba-winbind
+            - samba-winbind-clients
+
+
+      - name: Copy krb5
+        copy:
+          src: /var/lib/awx/projects/kerberos/krb5.conf
+          dest: /etc/krb5.conf
+          owner: root
+          group: root
+          mode: 0644
+
+      - name: Copy smb.Conf
+        copy:
+          src: /var/lib/awx/projects/kerberos/smb.conf
+          dest: /etc/samba/smb.conf
+          owner: root
+          group: root
+          mode: 0644
+
+      - name: Copy "/etc/sysconfig/squid"
+        copy:
+          src: /var/lib/awx/projects/kerberos/squid
+          dest: /etc/sysconfig/
+      - name: Copy "/etc/sysconfig/squid"
+        copy:
+          src: /var/lib/awx/projects/kerberos/pass
+          dest: /tmp/
+
+
+      - name: Start service Samba
+        service:
+          name: smb
+          enabled: true
+          state: started
+
+
+      #- name: Create keytab
+      #  script: /var/lib/awx/projects/kerberos/kinit.sh
+
+        # tasks file for ansible-kinit-keytab
+      - name: kinit
+        shell: kinit -k -t /root/teste.keytab  --password-file="/tmp/pass" srv_ansible
+        args:
+          executable: "/usr/bin/kinit"
+
+      - name: export "KRB5"
+        shell: export KRB5_KTNAME=FILE:/etc/squid/HTTP.keytab
+
+      - name: Create keytab
+        shell: net ads keytab CREATE
+
+      - name: Create keytab
+        shell: net ads keytab ADD HTTP
+
+      - name: Check keytab
+        shell: klist -k /etc/squid/HTTP.keytab
+
+      - name: Adjust permissions
+        shell: chgrp squid /etc/squid/HTTP.keytab
+        shell: chmod g+r /etc/squid/HTTP.keytab
+
+        #https://community.hortonworks.com/questions/37074/automation-of-kinit-process-without-login-into-edg.html

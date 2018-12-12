@@ -1,0 +1,20 @@
+---
+ - name: Configure crontab
+   hosts: filebeat
+   #become: yes
+   #become_method: su
+   tasks:
+     - name: Copy script crontab
+       copy:
+         src: "/home/felipeaguiar/Documents/Linux/code/Ansible/ansible/get_sec_update.sh"
+         dest: "/usr/local/bin/"
+         mode: 0775
+
+     - name: Crate job crontab
+       cron:
+         name: get_sec_update
+         minute: 30
+         hour: 0
+         user: root
+         job: /usr/local/bin/get_sec_update.sh
+         cron_file: get-security-update

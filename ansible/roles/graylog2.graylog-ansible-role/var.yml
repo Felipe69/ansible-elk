@@ -1,0 +1,9 @@
+# Elasticsearch message retention
+graylog_elasticsearch_max_docs_per_index:    20000000
+graylog_elasticsearch_max_number_of_indices: 20
+graylog_elasticsearch_shards:                4
+graylog_elasticsearch_replicas:              0
+
+graylog_rest_listen_uri:  "http://0.0.0.0:9000/api/"
+graylog_web_listen_uri:   "http://0.0.0.0:9000/"
+graylog_web_endpoint_uri: "http://127.0.0.1:9000/api/"

@@ -1,0 +1,6 @@
+---
+
+- name: Install squid
+  pkgng:
+    name: "{{ squid_package }}"
+    state: present

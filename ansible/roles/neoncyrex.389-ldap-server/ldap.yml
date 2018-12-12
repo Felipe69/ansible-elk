@@ -1,0 +1,4 @@
+---
+  - hosts: all
+    roles:
+     - { role: 389-ldap-server, supplier: true, consumer_host: proxy.prf.rs }
