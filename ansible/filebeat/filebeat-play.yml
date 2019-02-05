@@ -1,0 +1,15 @@
+---
+  - name: Deploy filebeat
+    hosts: filebeat-prod
+    tasks:
+     - name: Copy Filebeat
+       copy:
+          src: "/home/felipeaguiar/Documents/Clientes/alergs/filebeat.yml"
+          dest: /etc/filebeat/filebeat.yml
+     - name: Restart Filebeat
+       service:
+          name: filebeat
+          state: restarted
+
+      #- name: Install filebeat dpkg
+      #  command: /usr/bin/dpkg -i /root/filebeat-6.5.3-amd64.deb

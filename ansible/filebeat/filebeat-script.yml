@@ -1,0 +1,11 @@
+---
+  - name: Deploy filebeat
+    hosts: Lircod
+    tasks:
+      - name: Copy packages
+        copy:
+         src: "/home/felipeaguiar/Documents/Linux/code/Ansible/ansible/filebeat/filebeat-6.5.3-amd64.deb"
+         dest: /tmp/filebeat-6.5.3-amd64.deb
+      - name: Execite install filebeat
+        script: /home/felipeaguiar/bin/filebeat-ansible.sh
+        register: output

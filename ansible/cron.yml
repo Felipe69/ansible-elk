@@ -1,20 +1,24 @@
 ---
  - name: Configure crontab
-   hosts: filebeat
+   hosts: Cronod 
    #become: yes
    #become_method: su
    tasks:
-     - name: Copy script crontab
+     - name: Copy script crontabs
        copy:
          src: "/home/felipeaguiar/Documents/Linux/code/Ansible/ansible/get_sec_update.sh"
-         dest: "/usr/local/bin/"
+         dest: "/usr/local/bin/get_sec_update.sh"
          mode: 0775
 
      - name: Crate job crontab
        cron:
          name: get_sec_update
-         minute: 30
-         hour: 0
+         hour: 12
+         minute: 0
          user: root
          job: /usr/local/bin/get_sec_update.sh
          cron_file: get-security-update
+     - name: Restart crond
+       service:
+          name: cron
+          state: restarted

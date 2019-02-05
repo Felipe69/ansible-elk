@@ -11,8 +11,12 @@
       - name: Create job crontab
         cron:
           name: get_sec_update
-          minute: 30
-          hour: 0
+          minute: 3
           user: root
           job: /usr/local/bin/get_sec_update.sh
           cron_file: get-security-update
+
+      - name: Restart crond
+        service:
+          name: cron
+          ensure: restarted

@@ -1,0 +1,14 @@
+grok {
+   match => { "message" => "%{TIMESTAMP_ISO8601:timestamp} %{LOGLEVEL:log-level} \[%{DATA:class}\]:%{GREEDYDATA:message}" }
+   overwrite => [“message”]
+   add_tag =>  [ "My_Secret_Tag” ]
+}
+
+if [type] == "log" {
+        grok {
+         match => { "message" => "^%{URIHOST:wserver},(?<Windows_version>[^,]*),%{NUMBER:Needed},%{NUMBER:Downloaded},%{NUMBER:NotInstalled},%{NUMBER:Failed}" }
+         overwrite => [“message”]
+           }
+
+    }
+}

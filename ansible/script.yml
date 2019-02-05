@@ -1,0 +1,9 @@
+---
+ - name: Configure crontab
+   hosts: Cronod
+   tasks:
+     - name: Copy script crontabs
+       copy:
+         src: "/home/felipeaguiar/Documents/Linux/code/Ansible/ansible/get_sec_update.sh"
+         dest: "/usr/local/bin/get_sec_update.sh"
+         mode: 0775
